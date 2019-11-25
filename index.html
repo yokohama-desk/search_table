@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+     <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+  </head>
+<body>
+  <div class="wrapper">
+    <h2>シミュレーション解析研究室データベース　検索ページ</h2>
+    <div class="search-area">
+      <form>
+        <input type="text" id="search-text" placeholder="検索ワードを入力">
+      </form>
+    </div>
+      <div id="app">
+    <table class="target-area">
+      <thead><th v-for="header in headers">{{ header }}</th></thead>
+      <tbody>
+        <tr v-for="list in lists"><td class="trget_t_date">{{list.t_date | moment }}</td><td class="target_t_title"><a v-bind:href="list.url" target="_blank">{{list.t_title}}</a></td>
+        <td>{{list.e_date | moment}}</td><td>{{list.theme}}</td><td>{{list.target}}</td>
+        <td>{{list.contents}}</td><td>{{list.tar_dev}}</td><td>{{list.soft}}</td><td>{{list.key}}</td><td>{{list.notice}}</td>
+        <td>{{list.mat_no}}</td><td>{{list.z_name}}</td><td>{{list.category}}</td><td>{{list.req_no}}</td>
+        <td>{{list.rep_no}}</td><td>{{list.inp_data}}</td><td>{{list.inp_name}}</td><td>{{list.z_no}}</td>
+        <td>{{list.big_data}}</td><td><a target="_blank" v-bind:href="list.image"><img :src="list.image" :alt="list.title" :title="list.title"></a></td>
+        <td>{{list.memo}}</td><td>{{list.y_no}}</td><td>{{list.t_name}}</td>
+        </tr>
+        </tbody>
+      </table>
+      </div><!-- /#app -->
+  </div><!-- /.wrapper -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('js_search_table').getContent(); ?>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,32 @@
+<script>
+$(function () {
+  searchWord = function(){
+    var searchTexts = $(this).val(); // 検索ボックスに入力された値
+    var searchTexts_list = searchTexts.split(',');
+
+    $('.target-area tbody tr').each(function() {
+      var hitCnt=0;
+      for(var i = 0;i<searchTexts_list.length;i++){
+        var searchText = searchTexts_list[i];
+        var targetText = $(this).text();  
+        // 検索対象となるリストに入力された文字列が存在するかどうかを判断
+        if (targetText.indexOf(searchText) != -1) {
+          hitCnt = hitCnt + 1;
+        }
+      };
+      if (hitCnt === searchTexts_list.length) {
+        $(this).removeClass('hidden');
+      } else {
+        $(this).addClass('hidden');
+      }
+    });
+  };
+
+  // searchWordの実行
+  $('#search-text').on('input', searchWord);
+});
+
+</script>
+
+
+

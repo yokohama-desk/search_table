@@ -1,0 +1,29 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+<script>
+google.script.run.withSuccessHandler(initializeVue).getJsonData();
+
+
+function initializeVue(values){
+  console.log(values);
+  values = JSON.parse(values);  
+  //var header = Object.keys(values[0]);//ヘッダーも配列から使う場合
+  var header = values[0];//1行目をタイトル行して使う
+  delete header['url'];//タイトル行からurlを外す
+  values.shift();//テーブルデータからタイトル行に使った1レコード目を外す
+  new Vue({
+    el: '#app',
+    data: {
+      tocTitle: 'シミュレーション解析研究室データベース　検索ページ',
+      tocDescription: 'テキストボックスにキーワードを入れて下さい',
+      headers:header,
+      lists: values
+    },
+    filters: {
+      moment: function (date) {
+      return moment(date).isValid() == true ? moment(date).format('YYYY/MM/DD') : date;
+      }
+    }
+  });
+}
+</script>
