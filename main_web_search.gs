@@ -30,28 +30,41 @@ function backjson2(orgtable_id,sheetname) {
   var sheet = SpreadsheetApp.openById(orgtable_id).getSheetByName(sheetname);
   var ss = sheet.getDataRange().getValues();
   //タイトル行を取得する
-  var title = ['t_date','t_title','e_date','url','theme','target','contents','tar_dev','soft','key','notice','mat_no','z_name','category','req_no','rep_no','inp_data','inp_name','z_no','big_data','image','memo','y_no','t_name'];
-
+  var title = ['t_date','t_title','e_date','url','theme','target','contents','soft','key','notice','req_no','rep_no','inp_data','z_no','big_data','image','memo','y_no','t_name','folder','rep_url'];
   //https://www.softel.co.jp/blogs/tech/archives/3924
   var ss = ss.filter(function(e){return e[0] !== "";});
-  var exe = [1];//削除したい位置（先頭が0であることに注意）e_mail列を削除
-  //e_mail列を削除
-  for(var i=0; i<ss.length; i++){    //このfor文で行を回す
-    for(var j=0; j<exe.length; j++){
-      ss[i].splice(exe[j]-j, 1);
+  //---必要な項目だけ取得と順番替え--------2021.09.03 フォーム改訂による項目削除により変更--------------------- START
+  ss.map( function(row, index,arr) {
+    var getno = [0,2,3,4,5,6,7,9,10,11,15,16,17,19,20,21,22,23,24,25,26,27];
+    var rowq = [];
+    for(i=0;i<getno.length;i++){
+      var ix = getno[i]
+      rowq.push(row[ix]);      
     }
-  }
-  var len = ss.length;
+    arr[index] = rowq;
+  });
+  // ------------------------------------------------------ END
   //---画像url置換部分なのでシート関数でシート上で処理してもOK　---A START
-  var pos = 20;//image urlの列
+  var pos = 15;//image urlの列
   var folderimg = 'https://drive.google.com/file/d/';//Google Dreive内url
   var urlimg  ='https://drive.google.com/uc?id=';//web上のimage url
   ss = replaceElement(ss,folderimg,urlimg,pos);
-  var delstr = '/view';
-  var retstr = '';
-  ss = replaceElement(ss,delstr,retstr,pos);
-  // ------------------------------------------------------A END
-  //JSONデータを生成する
+  var delstrs = ['/view?usp=sharing','/view?usp=drivesdk','/view',];//評価順番注意　先に部分位置していると変換されない
+  var shareurl = '';
+  ss = replaceElementarr(ss,delstrs,shareurl,pos);  
+  // --------------------------------------------------------A END
+  //---並び替え　日付降順 -----2021.04.28 追加------------------------------- START
+  var header = ss[0];
+  ss.shift();
+  ss.sort(function(a, b) {
+    if (b.e_date > a.e_date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  })
+  ss.unshift(header);
+  // ------------------------------------------------------ END
   return JSON.stringify(ss.map(function(row) {
   var json = {}
   row.map(function(item, index) {
