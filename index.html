@@ -20,8 +20,8 @@
       <tbody>
         <tr v-for="list in lists"><td class="trget_t_date">{{list.t_date | moment }}</td><td class="target_t_title"><a v-bind:href="list.url" target="_blank">{{list.t_title}}</a></td>
         <td>{{list.e_date | moment}}</td><td>{{list.theme}}</td><td>{{list.target}}</td>
-        <td>{{list.contents}}</td><td>{{list.tar_dev}}</td><td>{{list.soft}}</td><td>{{list.key}}</td><td>{{list.notice}}</td>
-        <td>{{list.mat_no}}</td><td>{{list.z_name}}</td><td>{{list.category}}</td><td>{{list.req_no}}</td>
+        <td>{{list.contents}}</td><td>{{list.soft}}</td><td>{{list.key}}</td><td>{{list.notice}}</td>
+        <td>{{list.req_no}}</td>
         <td>{{list.rep_no}}</td><td>{{list.inp_data}}</td><td>{{list.inp_name}}</td><td>{{list.z_no}}</td>
         <td>{{list.big_data}}</td><td><a target="_blank" v-bind:href="list.image"><img :src="list.image" :alt="list.title" :title="list.title"></a></td>
         <td>{{list.memo}}</td><td>{{list.y_no}}</td><td>{{list.t_name}}</td>
